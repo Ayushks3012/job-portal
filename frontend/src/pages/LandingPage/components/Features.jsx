@@ -59,14 +59,14 @@ const Features = () => {
                   <div 
                   key={index}
                   className='group flex items-start space-x-4 p-6 rounded-2xl hover:bg-purple-50 transition-all duration-300 cursor-pointer'>
-                    <div className=''>
-                      <feature.icon className='' />
+                    <div className='shrink-0 w-12 h-12 flex items-center justify-center bg-purple-100 rounded-xl group-hover:bg-purple-200 transition-colors'>
+                      <feature.icon className='w-6 h-6 text-purple-600' />
                     </div>
                     <div>
-                      <h4 className=''>
+                      <h4 className='text-xl font-semibold mb-2 text-gray-900'>
                         {feature.title}
                       </h4>
-                      <p className=''>
+                      <p className='text-gray-600 leading-relaxed'>
                         {feature.description}
                       </p>
                     </div>
