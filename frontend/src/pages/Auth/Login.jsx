@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, Loader, AlertCircle, CheckCircle, Link } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Loader, AlertCircle, CheckCircle, Link, Key, Delete } from 'lucide-react';
+import { validateEmail } from '../../utils/helper';
 
 const Login = () => {
 
@@ -17,27 +18,93 @@ const Login = () => {
     success: false
   });
 
-  // validation function
-  const validateEmail = (email) => {
 
-  };
+  
+
 
   const validatePassword = (password) => {
-
+    if (!password) return 'password is required'
+    return '';
   };
+
 
   // Handle input changes
   const handleInputChange = (e) => {
+    const {name, value} = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
 
+    // Clear error when user start typing
+    if(formState.errors[name]) {
+      setFormState(prev => ({
+        ...prev,
+        errors: {...prev.errors, [name] : '' }
+      }));
+    }
   };
+
 
   const validateForm = () => {
+    const errors = {
+      email: validateEmail(formData.email),
+      password: validatePassword(formData.password)
+    };
 
+    // remove empty errors
+    Object.keys(errors).forEach(Key => {
+      if (!errors[Key]) delete errors[Key];
+    });
+
+    setFormState(prev => ({
+      ...prev, errors
+    }));
+    return Object.keys(errors).length === 0;
   };
+
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    if(!validateForm()) return;
+
+    setFormState(prev => ({...prev, loading: true }));
+
+    try {
+      // Login API integration
+
+    }catch (error) {
+      setFormState(prev => ({
+        ...prev,
+        loading: false,
+        errors: {
+          submit:error.response?.data?.message || 'Login failed. Please check your credentials.'
+        }
+      }));
+    }
   };
+
+
+  if(formState.success) {
+    return (
+      <div className='min-h-screen flex items-center justify-center bg-gray-50 px-4'>
+        <motion.div
+        initial={{ opacity:0, scale: 0.9}}
+        animate={{ opacity:1, scale: 1}}
+        className='bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center'
+        >
+          <CheckCircle className='w-16 h-16 text-green-500 mx-auto mb-4' />
+          <h2 className='text-2xl font-bold text-gray-900 mb-2'>Welcome Back!</h2>
+          <p className='text-gray-600 mb-4'>
+            You have been successfully logged in.
+          </p>
+          <div className='animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto'></div>
+          <p className='text-sm text-gray-500 mt-2'>Redirecting to your dashboard...</p>
+        </motion.div>
+      </div>
+    );
+  }
 
 
   return (
