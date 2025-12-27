@@ -97,8 +97,51 @@ const SignUp = () => {
                 Full Name *
               </label>
               <div className=''>
-
+                <User className='' />
+                <input 
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formState.errors.fullName ? 'border-red-500' : 'border-gray-300'} focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
+                  placeholder='Enter your full name'
+                />
               </div>
+              {formState.errors.fullName && (
+                <p className=''>
+                  <AlertCircle className='' />
+                  {formState.errors.fullName}
+                </p>
+                  )}
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className=''>
+                Email Address *
+              </label>
+              <div className=''>
+                <Mail className='' />
+                <input 
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formState.errors.email ? 'border-red-500' : 'border-gray-300'} focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
+                  placeholder='Enter your email address'
+                />
+              </div>
+              {formState.errors.email && (
+                <p className=''>
+                  <AlertCircle className='' />
+                  {formState.errors.email}
+                </p>
+                  )}
+            </div>
+
+            {/* Password */}
+            <div>
+              
             </div>
 
       </motion.div>
