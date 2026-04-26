@@ -74,30 +74,30 @@ const SignUp = () => {
     }
 
   return (
-    <div className=''>
+    <div className='min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8'>
       <motion.div 
       initial={{opacity: 0, y: 20}}
       animate={{ opacity:1, y: 0 }}
       transition={{duration: 0.6 }}
-      className=""
+      className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full"
       >
-        <div className="">
-          <h2 className="">
+        <div className="text-center mb-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">
             Create Account
           </h2>
-          <p className="">
+          <p className="text-sm text-gray-600">
             Join thousands of professionals their dream jobs
           </p>
           </div>
 
-          <form className="" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Full Name */}
             <div>
-              <label className=''>
+              <label className='block text-sm font-medium text-gray-700 mb-2'>
                 Full Name *
               </label>
-              <div className=''>
-                <User className='' />
+              <div className='relative'>
+                <User className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5' />
                 <input 
                   type="text"
                   name="fullName"
@@ -108,8 +108,8 @@ const SignUp = () => {
                 />
               </div>
               {formState.errors.fullName && (
-                <p className=''>
-                  <AlertCircle className='' />
+                <p className='text-red-500 text-sm mt-1 flex items-center'>
+                  <AlertCircle className='w-4 h-4 mr-1' />
                   {formState.errors.fullName}
                 </p>
                   )}
@@ -117,11 +117,11 @@ const SignUp = () => {
 
             {/* Email */}
             <div>
-              <label className=''>
+              <label className='block text-sm font-medium text-gray-700 mb-2'>
                 Email Address *
               </label>
-              <div className=''>
-                <Mail className='' />
+              <div className='relative'>
+                <Mail className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5' />
                 <input 
                   type="email"
                   name="email"
@@ -132,8 +132,8 @@ const SignUp = () => {
                 />
               </div>
               {formState.errors.email && (
-                <p className=''>
-                  <AlertCircle className='' />
+                <p className='text-red-500 text-sm mt-1 flex items-center'>
+                  <AlertCircle className='w-4 h-4 mr-1' />
                   {formState.errors.email}
                 </p>
                   )}
@@ -141,12 +141,132 @@ const SignUp = () => {
 
             {/* Password */}
             <div>
-              
+              <label className='block text-sm font-medium text-gray-700 mb-2'>
+                Password *
+              </label>
+              <div className="relative">
+                <Lock className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5' />
+                <input type={formState.showPassword ? "text" : "password"} 
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className={`w-full pl-10 pr-12 py-3 rounded-lg border ${formState.errors.password ? "border-red-500" : "border-gray-300"
+                }
+                focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
+                placeholder='Create a Strong Password'
+                />
+                <button className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600'
+                type='button'
+                onClick={() => setFormState((prev) =>({
+                  ...prev,showPassword: !prev.showPassword,
+                }))}
+                >
+                  {formState.showPassword ?(
+                    <EyeOff className='w-5 h-5' />
+                  ) : (
+                    <Eye className='w-5 h-5' />
+                  )}
+                </button>
+              </div>
+              {formState.errors.password && (
+                <p className='text-red-500 text-sm mt-1 flex items-center'>
+                  <AlertCircle className='w-4 h-4 mr-1' />
+                  {formState.errors.password}
+                </p>
+              )}
             </div>
 
+            {/* Avatar upload */}
+            <div>
+              <label className="">
+                Profile Picture (Optional)
+              </label>
+              <div className="">
+                <div className="">
+                  {formState.avatarPreview ? (
+                    <img src={formState.avatarPreview} alt="avatar Preview" 
+                    className=''
+                    />
+                  ) : (
+                    <User className='' />
+                  )}
+                </div>
+                <div className="">
+                  <input 
+                  type="file"
+                  id='avatar'
+                  accept='.jpeg,.jpg,.png'
+                  onChange={handleAvatarChange}
+                  className=''
+                  />
+                  <label htmlFor="avatar"
+                  className='' 
+                  >
+                    <Upload className='' />
+                    <span>Upload Avatar</span>
+                  </label>
+                  <p className="">
+                    JPEG,JPG,PNG upto 5MB
+                  </p>
+                </div>
+              </div>
+              {formState.errors.avatar && (
+                <p className='text-red-500 text-sm mt-1 flex items-center'>
+                  <AlertCircle className='w-4 h-4 mr-1' />
+                  {formState.errors.avatar}
+                </p>
+              )}
+            </div>
+
+            {/* Role selection */}
+            <div>
+              <label className=''>
+                I am a *
+              </label>
+              <div className=''>
+                <button className={`p-4 rounded-lg border-2 transition-all ${
+                  formData.role === "jobseeker" ? "border-blue-500 bg-blue text-blue-700" : "border-gray-200 hover:border-gray-300"
+                }`}
+                type='button'
+                onClick={() => handleRoleChange('jobseeker')}
+                >
+                  <UserCheck className='' />
+                  <div className="">
+                    JobSeeker
+                  </div>
+                  <div className="">
+                    Looking for a job
+                  </div>
+                </button>
+                <button type='button'
+                onClick={() => handleRoleChange("employer")}
+                className={`p-4 rounded-lg border-2 transition-all ${
+                  formData.role === "employer" ? "border-blue-500 bg-blue-50 text-blue-700" : "border-gray-200 hover:border-gray-300"
+                }`}
+                >
+                  <building2 className='' />
+                  <div className="">
+                    Employer
+                  </div>
+                  <div className="">
+                    Hiring talent
+                  </div>
+                </button>
+              </div>
+              {formState.errors.role && (
+                <p className='text-red-500 text-sm mt-1 flex items-center'>
+                  <AlertCircle className='w-4 h-4 mr-1' />
+                  {formState.errors.role}
+                </p>
+              )}
+            </div>
+
+            {/* Submit Error */}
+            
+            </form>
       </motion.div>
     </div>
   )
-}
+};
 
-export default SignUp
+export default SignUp;
